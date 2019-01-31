@@ -23,6 +23,7 @@ import android.util.Log;
 import com.android.server.wifi.WifiNative;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -94,9 +95,13 @@ public class ApConfigUtil {
 
         /* 5G without DFS. */
         if (allowed5GFreqList != null && allowed5GFreqList.length > 0) {
-            /* Pick a random channel from the list of supported channels. */
-            return convertFrequencyToChannel(
-                    allowed5GFreqList[sRandom.nextInt(allowed5GFreqList.length)]);
+           /* Pick a random channel from the list of supported channels. */
+	    int myfreq = allowed5GFreqList[sRandom.nextInt(allowed5GFreqList.length)];
+            int mychannel = convertFrequencyToChannel(myfreq);
+            int myreturn = 44;
+            Log.d(TAG, "nvertigo: Forcing channel " + myreturn + "; computed freq: " + myfreq + "; computed channel: " + mychannel);
+            Log.d(TAG, "nvertigo: allowed freqs: " + Arrays.toString(allowed5GFreqList) + "; allowed5GFreqList.length: " + allowed5GFreqList.length);
+            return myreturn;
         }
 
         Log.e(TAG, "No available channels on 5GHz band");
@@ -116,6 +121,8 @@ public class ApConfigUtil {
                                             String countryCode,
                                             ArrayList<Integer> allowed2GChannels,
                                             WifiConfiguration config) {
+        Log.e(TAG, "nvertigo: updateApChannelConfig: default band: " + DEFAULT_AP_BAND + "; default channel: " + DEFAULT_AP_CHANNEL);
+        Log.e(TAG, "nvertigo: updateApChannelConfig: band: " + config.apBand + "; channel: " + config.apChannel);
         /* Use default band and channel for device without HAL. */
         if (!wifiNative.isHalStarted()) {
             config.apBand = DEFAULT_AP_BAND;
@@ -135,6 +142,7 @@ public class ApConfigUtil {
             config.apChannel = chooseApChannel(
                     config.apBand, allowed2GChannels,
                     wifiNative.getChannelsForBand(WifiScanner.WIFI_BAND_5_GHZ));
+            Log.e(TAG, "nvertigo: config.apChannel: " + config.apChannel);
             if (config.apChannel == -1) {
                 /* We're not able to get channel from wificond. */
                 Log.e(TAG, "Failed to get available channel.");

@@ -272,7 +272,7 @@ public class SoftApManager implements ActiveModeManager {
             Log.e(TAG, "Soft AP start failed");
             return ERROR_GENERIC;
         }
-        Log.d(TAG, "Soft AP is started");
+        Log.d(TAG, "nvertigo: Soft AP is started: " + mApInterfaceName + "channel: " + localConfig.apChannel);
 
         return SUCCESS;
     }

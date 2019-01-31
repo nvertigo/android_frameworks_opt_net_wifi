@@ -795,6 +795,7 @@ public class WificondControl implements IBinder.DeathRecipient {
             IApInterfaceEventCallback  callback = new ApInterfaceEventCallback(listener);
             mApInterfaceListeners.put(ifaceName, callback);
             boolean success = iface.startHostapd(callback);
+            Log.d(TAG, "nvertigo: startHotspot: " + success);
             if (!success) {
                 Log.e(TAG, "Failed to start hostapd.");
                 return false;
@@ -803,6 +804,7 @@ public class WificondControl implements IBinder.DeathRecipient {
             Log.e(TAG, "Exception in starting soft AP: " + e);
             return false;
         }
+        Log.d(TAG, "nvertigo: startHotspot: successfull");
         return true;
     }
 

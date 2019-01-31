@@ -314,6 +314,7 @@ public class WifiApConfigStore {
             if (authType != KeyMgmt.NONE) {
                 out.writeUTF(config.preSharedKey);
             }
+	    Log.e(TAG, "nvertigo: band: " + config.apBand + "; channel: " + config.apChannel + "; config file: " + filename);
         } catch (IOException e) {
             Log.e(TAG, "Error writing hotspot configuration" + e);
         }
